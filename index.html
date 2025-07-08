@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cadastro de Usuários - Sistema Moderno</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Reset e configurações base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary-color: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary-color: #f1f5f9;
+      --accent-color: #10b981;
+      --danger-color: #ef4444;
+      --warning-color: #f59e0b;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --border-color: #e2e8f0;
+      --background: #ffffff;
+      --surface: #f8fafc;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      --radius: 12px;
+      --radius-lg: 16px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: var(--background);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="white" opacity="0.1"/><circle cx="10" cy="90" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .form-section {
+      background: var(--surface);
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .form-section h2 {
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-section h2 i {
+      color: var(--primary-color);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      background: var(--background);
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgb(99 102 241 / 0.1);
+      transform: translateY(-1px);
+    }
+
+    .form-group input:hover,
+    .form-group select:hover {
+      border-color: var(--primary-color);
+    }
+
+    .section-divider {
+      margin: 2rem 0 1.5rem 0;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--border-color);
+    }
+
+    .section-divider h3 {
+      color: var(--primary-color);
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, var(--accent-color) 0%, #059669 100%);
+      color: white;
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, var(--danger-color) 0%, #dc2626 100%);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+      color: white;
+    }
+
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.1rem;
+      margin-top: 1rem;
+    }
+
+    .message {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: var(--radius);
+      font-weight: 500;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .message.success {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .list-section {
+      background: var(--background);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+
+    .list-header {
+      background: var(--surface);
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .list-header h2 {
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    thead {
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    thead th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-primary);
+      border-bottom: 2px solid var(--border-color);
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background: var(--surface);
+      transform: scale(1.01);
+    }
+
+    tbody td {
+      padding: 1rem;
+      color: var(--text-secondary);
+      vertical-align: middle;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .pdf-section {
+      padding: 2rem;
+      border-top: 1px solid var(--border-color);
+      background: var(--surface);
+    }
+
+    /* Dark Mode */
+    body.dark {
+      --background: #0f172a;
+      --surface: #1e293b;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --border-color: #334155;
+    }
+
+    body.dark .container {
+      background: var(--surface);
+    }
+
+    body.dark .form-section,
+    body.dark .list-section {
+      background: var(--background);
+      border-color: var(--border-color);
+    }
+
+    body.dark .form-group input,
+    body.dark .form-group select {
+      background: var(--surface);
+      border-color: var(--border-color);
+      color: var(--text-primary);
+    }
+
+    body.dark thead {
+      background: var(--surface);
+    }
+
+    body.dark tbody tr:hover {
+      background: var(--surface);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      .header {
+        padding: 1.5rem;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .main-content {
+        padding: 1rem;
+        gap: 1rem;
+      }
+
+      .form-section {
+        padding: 1.5rem;
+      }
+
+      .list-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .header-actions {
+        justify-content: center;
+      }
+
+      .table-container {
+        font-size: 0.8rem;
+      }
+
+      thead th,
+      tbody td {
+        padding: 0.75rem 0.5rem;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .btn-sm {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+      }
+    }
+
+    /* Animações */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .container {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .form-section,
+    .list-section {
+      animation: fadeInUp 0.6s ease-out 0.2s both;
+    }
+
+    /* Loading states */
+    .btn.loading {
+      position: relative;
+      color: transparent;
+    }
+
+    .btn.loading::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      top: 50%;
+      left: 50%;
+      margin-left: -8px;
+      margin-top: -8px;
+      border: 2px solid transparent;
+      border-top-color: currentColor;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Scrollbar personalizada */
+    .table-container::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    .table-container::-webkit-scrollbar-track {
+      background: var(--surface);
+    }
+
+    .table-container::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb:hover {
+      background: var(--text-secondary);
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1><i class="fas fa-users"></i> Sistema de Cadastro</h1>
+      <p>Gerencie cadastros de usuários com dados socioeconômicos</p>
+    </header>
+
+    <div class="main-content">
+      <div class="form-section">
+        <h2><i class="fas fa-user-plus"></i> Cadastro de Usuário</h2>
+        
+        <form id="formCadastro">
+          <div class="form-group">
+            <label for="nome">Nome completo</label>
+            <input type="text" id="nome" required />
+          </div>
+
+          <div class="form-group">
+            <label for="idade">Idade</label>
+            <input type="number" id="idade" min="0" required />
+          </div>
+
+          <div class="form-group">
+            <label for="genero">Gênero</label>
+            <select id="genero" required>
+              <option value="">Selecione</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Feminino">Feminino</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="endereco">Endereço</label>
+            <input type="text" id="endereco" required />
+          </div>
+
+          <div class="form-group">
+            <label for="identificacao">Número de identificação</label>
+            <input type="text" id="identificacao" />
+          </div>
+
+          <div class="section-divider">
+            <h3><i class="fas fa-chart-line"></i> Dados Socioeconômicos</h3>
+          </div>
+
+          <div class="form-group">
+            <label for="renda">Renda Familiar (R$)</label>
+            <input type="number" id="renda" min="0" step="0.01" required />
+          </div>
+
+          <div class="form-group">
+            <label for="familia">Número de membros da família</label>
+            <input type="number" id="familia" min="1" required />
+          </div>
+
+          <div class="form-group">
+            <label for="despesas">Despesas Mensais (R$)</label>
+            <input type="number" id="despesas" min="0" step="0.01" required />
+          </div>
+
+          <div class="form-group">
+            <label for="escolaridade">Nível de Escolaridade</label>
+            <select id="escolaridade" required>
+              <option value="">Selecione</option>
+              <option value="Fundamental incompleto">Fundamental incompleto</option>
+              <option value="Fundamental completo">Fundamental completo</option>
+              <option value="Médio incompleto">Médio incompleto</option>
+              <option value="Médio completo">Médio completo</option>
+              <option value="Superior incompleto">Superior incompleto</option>
+              <option value="Superior completo">Superior completo</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary submit-btn">
+            <i class="fas fa-save"></i> Cadastrar
+          </button>
+        </form>
+
+        <div id="mensagem" class="message"></div>
+      </div>
+
+      <div class="list-section">
+        <div class="list-header">
+          <h2><i class="fas fa-list"></i> Lista de Cadastros</h2>
+          <div class="header-actions">
+            <button id="btnModoEscuro" class="btn btn-secondary btn-sm">
+              <i class="fas fa-moon"></i> Modo Escuro
+            </button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table id="tabelaCadastros" aria-label="Lista de cadastros">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>Gênero</th>
+                <th>Endereço</th>
+                <th>Renda</th>
+                <th>Membros</th>
+                <th>Despesas</th>
+                <th>Escolaridade</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div class="pdf-section">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let cadastros = JSON.parse(localStorage.getItem('cadastros')) || [];
+    const form = document.getElementById('formCadastro');
+    const mensagem = document.getElementById('mensagem');
+    const tabelaBody = document.querySelector('#tabelaCadastros tbody');
+    const btnModoEscuro = document.getElementById('btnModoEscuro');
+    let editIndex = -1;
+
+    // Verifica e aplica modo escuro salvo
+    if(localStorage.getItem('modoEscuro') === 'true'){
+      document.body.classList.add('dark');
+      btnModoEscuro.innerHTML = '<i class="fas fa-sun"></i> Modo Claro';
+    }
+
+    btnModoEscuro.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const modoAtivo = document.body.classList.contains('dark');
+      btnModoEscuro.innerHTML = modoAtivo ? 
+        '<i class="fas fa-sun"></i> Modo Claro' : 
+        '<i class="fas fa-moon"></i> Modo Escuro';
+      localStorage.setItem('modoEscuro', modoAtivo);
+    });
+
+    function mostrarMensagem(texto, tipo = 'success') {
+      mensagem.textContent = texto;
+      mensagem.className = `message ${tipo} show`;
+      setTimeout(() => {
+        mensagem.classList.remove('show');
+      }, 3000);
+    }
+
+    function salvarLocalStorage() {
+      localStorage.setItem('cadastros', JSON.stringify(cadastros));
+    }
+
+    function formatarMoeda(valor) {
+      return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      }).format(valor);
+    }
+
+    function preencherTabela() {
+      tabelaBody.innerHTML = '';
+      cadastros.forEach((usuario, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${usuario.nome}</strong></td>
+          <td>${usuario.idade} anos</td>
+          <td>${usuario.genero}</td>
+          <td>${usuario.endereco}</td>
+          <td>${formatarMoeda(usuario.renda)}</td>
+          <td>${usuario.membrosFamilia}</td>
+          <td>${formatarMoeda(usuario.despesas)}</td>
+          <td>${usuario.escolaridade}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn btn-success btn-sm" onclick="editarCadastro(${i})">
+                <i class="fas fa-edit"></i> Editar
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="excluirCadastro(${i})">
+                <i class="fas fa-trash"></i> Excluir
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="baixarPdfCadastro(${i})">
+                <i class="fas fa-file-pdf"></i> PDF
+              </button>
+            </div>
+          </td>
+        `;
+        tabelaBody.appendChild(tr);
+      });
+    }
+
+    function limparFormulario() {
+      form.reset();
+      editIndex = -1;
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.innerHTML = '<i class="fas fa-save"></i> Cadastrar';
+    }
+
+    function editarCadastro(i) {
+      const usuario = cadastros[i];
+      document.getElementById('nome').value = usuario.nome;
+      document.getElementById('idade').value = usuario.idade;
+      document.getElementById('genero').value = usuario.genero;
+      document.getElementById('endereco').value = usuario.endereco;
+      document.getElementById('identificacao').value = usuario.identificacao || '';
+      document.getElementById('renda').value = usuario.renda;
+      document.getElementById('familia').value = usuario.membrosFamilia;
+      document.getElementById('despesas').value = usuario.despesas;
+      document.getElementById('escolaridade').value = usuario.escolaridade;
+      
+      editIndex = i;
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.innerHTML = '<i class="fas fa-edit"></i> Atualizar';
+      
+      // Scroll para o formulário
+      document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function excluirCadastro(i) {
+      if (confirm('Tem certeza que deseja excluir este cadastro?')) {
+        cadastros.splice(i, 1);
+        salvarLocalStorage();
+        preencherTabela();
+        mostrarMensagem('Cadastro excluído com sucesso!');
+      }
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.classList.add('loading');
+      
+      setTimeout(() => {
+        const novoUsuario = {
+          nome: document.getElementById('nome').value.trim(),
+          idade: Number(document.getElementById('idade').value),
+          genero: document.getElementById('genero').value,
+          endereco: document.getElementById('endereco').value.trim(),
+          identificacao: document.getElementById('identificacao').value.trim(),
+          renda: Number(document.getElementById('renda').value),
+          membrosFamilia: Number(document.getElementById('familia').value),
+          despesas: Number(document.getElementById('despesas').value),
+          escolaridade: document.getElementById('escolaridade').value
+        };
+
+        if (editIndex === -1) {
+          cadastros.push(novoUsuario);
+          mostrarMensagem('Cadastro realizado com sucesso!');
+        } else {
+          cadastros[editIndex] = novoUsuario;
+          mostrarMensagem('Cadastro atualizado com sucesso!');
+        }
+
+        salvarLocalStorage();
+        preencherTabela();
+        limparFormulario();
+        submitBtn.classList.remove('loading');
+      }, 500);
+    });
+
+    function baixarPdfCadastro(i) {
+      const usuario = cadastros[i];
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      // Cabeçalho
+      doc.setFontSize(20);
+      doc.text("Dados do Cadastro", 14, 22);
+      
+      doc.setFontSize(12);
+      let y = 40;
+      
+      const dados = [
+        ['Nome:', usuario.nome],
+        ['Idade:', `${usuario.idade} anos`],
+        ['Gênero:', usuario.genero],
+        ['Endereço:', usuario.endereco],
+        ['Identificação:', usuario.identificacao || 'Não informado'],
+        ['Renda Familiar:', formatarMoeda(usuario.renda)],
+        ['Membros da Família:', usuario.membrosFamilia],
+        ['Despesas Mensais:', formatarMoeda(usuario.despesas)],
+        ['Escolaridade:', usuario.escolaridade]
+      ];
+      
+      dados.forEach(([label, value]) => {
+        doc.setFont(undefined, 'bold');
+        doc.text(label, 14, y);
+        doc.setFont(undefined, 'normal');
+        doc.text(String(value), 60, y);
+        y += 10;
+      });
+      
+      doc.save(`cadastro_${usuario.nome.replace(/\s+/g, '_').toLowerCase()}.pdf`);
+    }
+
+    document.getElementById("btnPdf").addEventListener("click", () => {
+      if (cadastros.length === 0) {
+        alert("Nenhum cadastro para gerar PDF.");
+        return;
+      }
+
+      const btn = document.getElementById("btnPdf");
+      btn.classList.add('loading');
+
+      setTimeout(() => {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        doc.setFontSize(18);
+        doc.text("Lista Completa de Cadastros", 14, 22);
+        doc.setFontSize(10);
+        doc.text(`Gerado em: ${new Date().toLocaleString('pt-BR')}`, 14, 30);
+        
+        let y = 45;
+        
+        cadastros.forEach((user, i) => {
+          if (y > 270) {
+            doc.addPage();
+            y = 20;
+          }
+          
+          doc.setFontSize(14);
+          doc.setFont(undefined, 'bold');
+          doc.text(`${i + 1}. ${user.nome}`, 14, y);
+          y += 8;
+          
+          doc.setFontSize(10);
+          doc.setFont(undefined, 'normal');
+          
+          const info = [
+            `Idade: ${user.idade} anos | Gênero: ${user.genero}`,
+            `Endereço: ${user.endereco}`,
+            `Renda: ${formatarMoeda(user.renda)} | Despesas: ${formatarMoeda(user.despesas)}`,
+            `Família: ${user.membrosFamilia} membros | Escolaridade: ${user.escolaridade}`
+          ];
+          
+          info.forEach(linha => {
+            doc.text(linha, 20, y);
+            y += 6;
+          });
+          
+          y += 8;
+        });
+        
+        doc.save("lista_completa_cadastros.pdf");
+        btn.classList.remove('loading');
+      }, 1000);
+    });
+
+    // Inicializa tabela
+    preencherTabela();
+  </script>
+</body>
+</html>
