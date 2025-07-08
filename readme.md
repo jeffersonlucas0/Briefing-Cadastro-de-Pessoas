@@ -61,5 +61,5 @@ Projeto desenvolvido com **HTML**, **CSS moderno** e **JavaScript puro**, com o 
 
 ---
 
-## 📦 Estrutura do Projeto
+
 
