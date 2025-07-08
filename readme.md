@@ -18,25 +18,25 @@ Projeto desenvolvido com **HTML**, **CSS moderno** e **JavaScript puro**, com o 
 
 ### 📄 Formulário de Cadastro (Modo Claro)
 
-![Formulário Claro](./screenshots/modoclaro.png)
+![Formulário Claro](./modoclaro.png)
 
 ---
 
 ### 🌑 Modo Escuro
 
-![Modo Escuro](./screenshots/modoescuro.png)
+![Modo Escuro](./modoescuro.png)
 
 ---
 
 ### 📋 Lista de Cadastros com Ações
 
-![Tabela](./screenshots/cadastros.png)
+![Tabela](./cadastros.png)
 
 ---
 
 ### 📥 PDF Gerado
 
-![PDF Gerado](./screenshots/dados.png)
+![PDF Gerado](./dados.png)
 
 ---
 
